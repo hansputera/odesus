@@ -31,5 +31,11 @@
     "eslint-config-xo-typescript": "^0.56.0",
     "tsup": "^6.6.3",
     "typescript": "^5.0.2"
-  }
+  },
+  "files": [
+    "dist/**",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ]
 }
