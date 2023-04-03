@@ -37,5 +37,8 @@
     "package.json",
     "README.md",
     "LICENSE"
-  ]
+  ],
+  "dependencies": {
+    "gaxios": "^5.1.0"
+  }
 }
