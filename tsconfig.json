@@ -12,11 +12,13 @@
         "noFallthroughCasesInSwitch": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "baseUrl": ".",
+        "paths": {
+            "@methods/*": ["src/methods/*"],
+            "@typings": ["src/types.ts"]
+        }
     },
-    "include": [
-        "src/**/*"
-    ],
     "exclude": [
         "node_modules",
         "dist"
