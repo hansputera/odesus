@@ -51,6 +51,8 @@ export type Episode = {
 			url: string;
 		}>;
 	}>;
+	credit: string;
+	picture: string;
 	iframeStreamUrl: string;
 	stream: () => Promise<Readable>;
 };
