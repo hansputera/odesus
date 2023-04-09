@@ -6,7 +6,7 @@ import {type Readable} from 'stream';
 
 // Ref: https://stackoverflow.com/a/67583500/21549146
 type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
-type FlattedEpisode = Flatten<Episode['downloads']>;
+export type FlattedEpisode = Flatten<Episode['downloads']>;
 
 export const $downloadHandle = (el: Element): FlattedEpisode => {
 	const $ = load(el);
