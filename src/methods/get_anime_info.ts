@@ -43,6 +43,19 @@ const $sectionHandler = async (el: Element, state: State) => {
 	}
 };
 
+export const $episodeHandle = (el: Element): {
+	title: string;
+	url: string;
+	uploadedAt: Date;
+} => {
+	const $ = load(el);
+	return {
+		title: $('a').text().trim(),
+		url: $('a').attr('href')!,
+		uploadedAt: new Date($('.zeebr').text().trim()),
+	};
+};
+
 export const $getAnimeInformation = async (
 	$client: Gaxios,
 	slug: Slug,
@@ -75,10 +88,11 @@ export const $getAnimeInformation = async (
 		studio: '',
 		releasedAt: new Date(),
 		producers: '',
+		episodes: $('.episodelist ul li').map((_, el) => $episodeHandle(el)).toArray(),
 	};
+	// Tag 'p' handlers
 	await Promise.all(
 		$('.infozingle p').map(async (_, el) => $sectionHandler(el, state)).toArray(),
 	);
-
 	return state;
 };
