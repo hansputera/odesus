@@ -60,6 +60,10 @@ export const $getAnimeInformation = async (
 	$client: Gaxios,
 	slug: Slug,
 ): Promise<AnimeInformation | undefined> => {
+	if (slug.type !== 'anime') {
+		throw new TypeError('Invalid slug.type');
+	}
+
 	const response = await $client.request({
 		method: 'GET',
 		url: '/'.concat(slug.type as string, '/', encodeURIComponent(slug.slug)),
