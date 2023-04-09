@@ -24,6 +24,7 @@
   "author": "Hanif Dwy Putra S <me@hdps.my.id>",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^18.15.11",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "eslint": "^8.36.0",
