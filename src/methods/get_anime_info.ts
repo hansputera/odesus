@@ -64,7 +64,7 @@ export const $getAnimeInformation = async (
 		throw new TypeError('Invalid slug.type');
 	}
 
-	const response = await $client.request({
+	const response = await $client.request<string>({
 		method: 'GET',
 		url: '/'.concat(slug.type as string, '/', encodeURIComponent(slug.slug)),
 	});

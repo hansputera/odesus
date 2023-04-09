@@ -31,7 +31,7 @@ export const $getEpisode = async (
 		throw new TypeError('Invalid slug.type');
 	}
 
-	const response = await $client.request({
+	const response = await $client.request<string>({
 		url: '/'.concat(slug.type, '/', encodeURIComponent(slug.slug)),
 	});
 
@@ -68,7 +68,6 @@ export const $getEpisode = async (
 				throw new Error('Fail to extract the streamUrl');
 			}
 
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 			return (await gaxios.request<Readable>({
 				url: streamUrl[1],
 				responseType: 'stream',

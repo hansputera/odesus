@@ -31,7 +31,7 @@ export const $searchMethod = async (
 	$client: Gaxios,
 	query: string,
 ): Promise<SearchResult[]> => {
-	const response = await $client.request({
+	const response = await $client.request<string>({
 		url: '/',
 		params: {
 			s: encodeURIComponent(query),
