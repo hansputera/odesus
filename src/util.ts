@@ -2,7 +2,7 @@ export type Slug = {
 	type: OtakuSlugType;
 	slug: string;
 };
-type OtakuSlugType = 'anime' | 'episode';
+type OtakuSlugType = 'anime' | 'episode' | 'batch' | 'lengkap';
 
 export const resolveSlug = (url: string): Slug | undefined => {
 	try {
