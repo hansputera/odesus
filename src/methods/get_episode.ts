@@ -1,7 +1,8 @@
 import {type Episode} from '@typings';
 import {type Slug} from '@util';
 import {type Element, load} from 'cheerio';
-import {type Gaxios} from 'gaxios';
+import * as gaxios from 'gaxios';
+import {type Readable} from 'stream';
 
 // Ref: https://stackoverflow.com/a/67583500/21549146
 type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
@@ -23,7 +24,7 @@ export const $downloadHandle = (el: Element): FlattedEpisode => {
 };
 
 export const $getEpisode = async (
-	$client: Gaxios,
+	$client: gaxios.Gaxios,
 	slug: Slug,
 ): Promise<Episode | undefined> => {
 	if (slug.type !== 'episode') {
@@ -39,11 +40,40 @@ export const $getEpisode = async (
 	}
 
 	const $ = load(response.data);
+	const frameUrl = $('#lightsVideo iframe').attr('src') ?? '-';
 	return {
 		title: $('h1.posttl').text().trim(),
 		postedBy: $('.kategoz span').eq(0).text().replace(/posted by/gi, '').trim(),
 		releasedTime: $('.kategoz span').eq(1).text().replace(/release on/gi, '').trim(),
 		downloads: $('.download ul li').map((_, el) => $downloadHandle(el)).toArray(),
 		url: response.request.responseURL,
+		iframeStreamUrl: frameUrl,
+		async stream() {
+			if (frameUrl === '-') {
+				throw new Error('Unexpected frameUrl');
+			}
+
+			const response = await gaxios.request<string>({
+				url: frameUrl,
+				baseUrl: '',
+			});
+			if (response.status !== 200) {
+				throw new Error('Unexpected Response#status from frameUrl');
+			}
+
+			const re = /\[{'file':'(.+)','type/gi;
+			const streamUrl = re.exec(response.data);
+
+			if (!streamUrl?.length) {
+				throw new Error('Fail to extract the streamUrl');
+			}
+
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+			return (await gaxios.request<Readable>({
+				url: streamUrl[1],
+				responseType: 'stream',
+				baseUrl: '',
+			})).data;
+		},
 	};
 };
