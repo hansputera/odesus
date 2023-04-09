@@ -1,7 +1,8 @@
 import {$getAnimeInformation} from '@methods/get_anime_info';
+import {$getEpisode} from '@methods/get_episode';
 import {$searchMethod} from '@methods/search';
 
-import {type AnimeInformation, type SearchResult} from '@typings';
+import {type Episode, type AnimeInformation, type SearchResult} from '@typings';
 import {type Slug} from '@util';
 import * as gaxios from 'gaxios';
 
@@ -41,6 +42,15 @@ export class Odesus {
 	 */
 	async getAnimeInfo(slug: Slug): Promise<AnimeInformation | undefined> {
 		return $getAnimeInformation(this.client, slug);
+	}
+
+	/**
+	 * Get episode information
+	 * @param {Slug} slug Episode slug
+	 * @return {Promise<Episode | undefined>}
+	 */
+	async getEpisode(slug: Slug): Promise<Episode | undefined> {
+		return $getEpisode(this.client, slug);
 	}
 }
 
