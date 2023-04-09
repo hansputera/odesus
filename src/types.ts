@@ -1,3 +1,4 @@
+import {type Readable} from 'stream';
 import {type Slug} from './util';
 
 export type Genre = {
@@ -50,4 +51,6 @@ export type Episode = {
 			url: string;
 		}>;
 	}>;
+	iframeStreamUrl: string;
+	stream: () => Promise<Readable>;
 };
