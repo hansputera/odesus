@@ -1,6 +1,7 @@
 import {type AnimeStatus, type Genre, type SearchResult} from '@typings';
 import {type Gaxios} from 'gaxios';
 import {load, type Element} from 'cheerio';
+import {resolveSlug} from '@util';
 
 const $liMapHandle = (el: Element): SearchResult => {
 	const $ = load(el);
@@ -9,7 +10,7 @@ const $liMapHandle = (el: Element): SearchResult => {
 
 		return {
 			name: $.text().trim(),
-			url: $().attr('href')!,
+			url: el.attribs.href,
 		};
 	};
 
@@ -22,6 +23,7 @@ const $liMapHandle = (el: Element): SearchResult => {
 			.replace(/(status|\s+|:)/gi, '').trim().toLowerCase() as AnimeStatus,
 		rating: parseFloat($('div').eq(2).eq(0).text()
 			.replace(/(rating|\s+|:)/gi, '').trim()) ?? 0,
+		getSlug: () => resolveSlug($('h2 a').attr('href')!),
 	};
 };
 

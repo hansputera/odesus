@@ -16,7 +16,8 @@
         "baseUrl": ".",
         "paths": {
             "@methods/*": ["src/methods/*"],
-            "@typings": ["src/types.ts"]
+            "@typings": ["src/types.ts"],
+            "@util": ["src/util.ts"]
         }
     },
     "exclude": [

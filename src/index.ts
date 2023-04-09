@@ -1,5 +1,8 @@
+import {$getAnimeInformation} from '@methods/get_anime_info';
 import {$searchMethod} from '@methods/search';
-import {type SearchResult} from '@typings';
+
+import {type AnimeInformation, type SearchResult} from '@typings';
+import {type Slug} from '@util';
 import * as gaxios from 'gaxios';
 
 /**
@@ -30,4 +33,16 @@ export class Odesus {
 	async search(query: string): Promise<SearchResult[]> {
 		return $searchMethod(this.client, query);
 	}
+
+	/**
+	 * Get anime information
+	 * @param {Slug} slug Anime slug
+	 * @return {Promise<AnimeInformation | undefined>}
+	 */
+	async getAnimeInfo(slug: Slug): Promise<AnimeInformation | undefined> {
+		return $getAnimeInformation(this.client, slug);
+	}
 }
+
+export * as Util from './util';
+export * as Types from './types';
