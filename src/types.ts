@@ -26,4 +26,9 @@ export type AnimeInformation = Exclude<SearchResult, 'getSlug'> & {
 	studio: string;
 	releasedAt: Date;
 	producers: string;
+	episodes: Array<{
+		title: string;
+		url: string;
+		uploadedAt: Date;
+	}>;
 };
