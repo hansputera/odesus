@@ -74,5 +74,7 @@ export const $getEpisode = async (
 				baseUrl: '',
 			})).data;
 		},
+		picture: $('.cukder img.wp-post-image').attr('src') ?? '-',
+		credit: $('.infozingle p').eq(0).text().trim(),
 	};
 };
