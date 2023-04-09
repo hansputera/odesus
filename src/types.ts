@@ -35,6 +35,20 @@ export type AnimeInformation = Exclude<SearchResult, 'getSlug'> & {
 	}>;
 };
 
+export type Batch = Pick<AnimeInformation, 'name' |
+'totalEpisodes' |
+'duration' |
+'producers' |
+'rating' |
+'genres' |
+'status' |
+'japaneseName' |
+'studio' |
+'url'
+> & Pick<Episode, 'credit'> & {
+	aired: Date;
+};
+
 export type Episode = {
 	title: string;
 	postedBy: string;
