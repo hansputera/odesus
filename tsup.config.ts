@@ -9,5 +9,4 @@ export default defineConfig({
 	minify: true,
 	target: 'es2019',
 	platform: 'node',
-	noExternal: ['gaxios'],
 });
