@@ -1,8 +1,9 @@
+import {$batch} from '@methods/batch';
 import {$getAnimeInformation} from '@methods/get_anime_info';
 import {$getEpisode} from '@methods/get_episode';
 import {$searchMethod} from '@methods/search';
 
-import {type Episode, type AnimeInformation, type SearchResult} from '@typings';
+import {type Episode, type AnimeInformation, type SearchResult, type Batch} from '@typings';
 import {type Slug} from '@util';
 import * as gaxios from 'gaxios';
 
@@ -51,6 +52,15 @@ export class Odesus {
 	 */
 	async getEpisode(slug: Slug): Promise<Episode | undefined> {
 		return $getEpisode(this.client, slug);
+	}
+
+	/**
+	 * Get batch information
+	 * @param {Slug} slug Batch slug
+	 * @return {Promise<Batch | undefined>}
+	 */
+	async batch(slug: Slug): Promise<Batch | undefined> {
+		return $batch(this.client, slug);
 	}
 }
 
