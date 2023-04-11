@@ -5,7 +5,9 @@ import {type Batch} from '@typings';
 
 import {$downloadHandle} from './get_episode';
 
-const $batchSectionHandle = (index: number, el: AnyNode, state: Batch) => {
+type BatchState = Record<keyof Batch, Batch[keyof Batch]>;
+
+const $batchSectionHandle = (index: number, el: AnyNode, state: BatchState) => {
 	const $ = load(el);
 
 	if (index % 2 === 0) {
@@ -52,14 +54,26 @@ export const $batch = async (
 
 	const $ = load(response.data);
 
-	// I'm lazy and later to fill this out.
-	const state: Batch = {};
-	const downloads = $('.download2 .batchlink ul li').map((_, el) => $downloadHandle(el))
-		.toArray();
+	const state: BatchState = {
+		name: undefined,
+		totalEpisodes: undefined,
+		duration: undefined,
+		producers: undefined,
+		rating: undefined,
+		genres: undefined,
+		status: undefined,
+		japaneseName: undefined,
+		studio: undefined,
+		url: undefined,
+		credit: undefined,
+		aired: undefined,
+		downloads: $('.download2 .batchlink ul li').map((_, el) => $downloadHandle(el))
+			.toArray(),
+	};
 
 	$('.infos').contents().each((index, el) => {
 		$batchSectionHandle(index, el, state);
 	});
 
-	return state;
+	return state as Batch;
 };
