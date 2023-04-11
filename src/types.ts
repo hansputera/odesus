@@ -40,13 +40,12 @@ export type Batch = Pick<AnimeInformation, 'name' |
 'duration' |
 'producers' |
 'rating' |
-'genres' |
-'status' |
 'japaneseName' |
 'studio' |
 'url'
 > & Pick<Episode, 'credit' | 'downloads'> & {
 	aired: Date;
+	genres: string[];
 };
 
 export type Episode = {
