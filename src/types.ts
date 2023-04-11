@@ -45,7 +45,7 @@ export type Batch = Pick<AnimeInformation, 'name' |
 'japaneseName' |
 'studio' |
 'url'
-> & Pick<Episode, 'credit'> & {
+> & Pick<Episode, 'credit' | 'downloads'> & {
 	aired: Date;
 };
 
