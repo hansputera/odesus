@@ -9,28 +9,41 @@ type BatchState = Record<keyof Batch, Batch[keyof Batch]>;
 
 const $batchSectionHandle = (index: number, el: AnyNode, state: BatchState) => {
 	const $ = load(el);
+	const value = $.text().trim();
 
 	if (index % 2 === 0) {
 		const keymaps = {
 			japanese: 'japaneseName',
 			studios: 'studio',
-			durasi: 'duration',
-			status: 'status',
+			duration: 'duration',
 			type: 'type',
 			judul: 'name',
-			produser: 'producers',
+			producers: 'producers',
+			aired: 'aired',
+			credit: 'credit',
+			rating: 'rating',
+			episodes: 'totalEpisodes',
 		};
-		const key = $.text().trim().toLowerCase();
+		const key = value.toLowerCase();
 		const keyOnMap = Reflect.get(keymaps, key) as string;
+		Reflect.set(state, '_key', keyOnMap);
 		if (keyOnMap) {
-			Reflect.set(state, '_key', keyOnMap);
 			Reflect.set(state, keyOnMap, '');
 		}
 	} else {
 		const savedKey = Reflect.get(state, '_key') as string;
 		if (savedKey) {
-			const value = $.text().trim().toLowerCase();
-			Reflect.set(state, savedKey, value);
+			const valuer = value.replace(/:/g, '').trim();
+			Reflect.set(state, savedKey, valuer);
+
+			if (!isNaN(parseFloat(valuer)) && savedKey !== 'duration') {
+				Reflect.set(state, savedKey, parseFloat(valuer));
+			} else if (savedKey === 'aired') {
+				Reflect.set(state, savedKey, new Date(valuer));
+			} else if (savedKey === 'genres') {
+				Reflect.set(state, savedKey, valuer.split(',').map(x => x.trim()));
+			}
+
 			Reflect.deleteProperty(state, '_key');
 		}
 	}
@@ -59,21 +72,21 @@ export const $batch = async (
 		totalEpisodes: undefined,
 		duration: undefined,
 		producers: undefined,
-		rating: undefined,
-		genres: undefined,
-		status: undefined,
+		rating: 0,
+		genres: [],
 		japaneseName: undefined,
 		studio: undefined,
-		url: undefined,
+		url: response.request.responseURL,
 		credit: undefined,
 		aired: undefined,
 		downloads: $('.download2 .batchlink ul li').map((_, el) => $downloadHandle(el))
 			.toArray(),
 	};
 
-	$('.infos').contents().each((index, el) => {
-		$batchSectionHandle(index, el, state);
-	});
+	$('.infos').contents().filter((_, el) => $(el).text().trim().length > 1)
+		.each((index, el) => {
+			$batchSectionHandle(index, el, state);
+		});
 
 	return state as Batch;
 };
