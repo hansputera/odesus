@@ -11,7 +11,7 @@ import * as gaxios from 'gaxios';
  * @class Odesus
  */
 export class Odesus {
-	protected client!: gaxios.Gaxios;
+	public client!: gaxios.Gaxios;
 	/**
      * @constructor
      * @param baseUrl Otakudesu Base URL
