@@ -75,7 +75,7 @@ export const $getEpisode = async (
 			}
 
 			return (await gaxios.request<Readable>({
-				url: streamUrl[1],
+				url: streamUrl,
 				responseType: 'stream',
 				baseUrl: '',
 			})).data;
