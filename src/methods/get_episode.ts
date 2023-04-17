@@ -41,6 +41,21 @@ export const $getEpisode = async (
 
 	const $ = load(response.data);
 	const frameUrl = $('#lightsVideo iframe').attr('src') ?? '-';
+	const getStreamUrl = async () => {
+		const response = await gaxios.request<string>({
+			url: frameUrl,
+			baseUrl: '',
+		});
+		if (response.status !== 200) {
+			throw new Error('Unexpected Response#status from frameUrl');
+		}
+
+		const re = /\[{'file':'(.+)','type/gi;
+		const streamUrl = re.exec(response.data);
+
+		return streamUrl?.at(1) ?? undefined;
+	};
+
 	return {
 		title: $('h1.posttl').text().trim(),
 		postedBy: $('.kategoz span').eq(0).text().replace(/posted by/gi, '').trim(),
@@ -48,22 +63,13 @@ export const $getEpisode = async (
 		downloads: $('.download ul li').map((_, el) => $downloadHandle(el)).toArray(),
 		url: response.request.responseURL,
 		iframeStreamUrl: frameUrl,
+		getStreamUrl,
 		async stream() {
 			if (frameUrl === '-') {
 				throw new Error('Unexpected frameUrl');
 			}
 
-			const response = await gaxios.request<string>({
-				url: frameUrl,
-				baseUrl: '',
-			});
-			if (response.status !== 200) {
-				throw new Error('Unexpected Response#status from frameUrl');
-			}
-
-			const re = /\[{'file':'(.+)','type/gi;
-			const streamUrl = re.exec(response.data);
-
+			const streamUrl = await getStreamUrl();
 			if (!streamUrl?.length) {
 				throw new Error('Fail to extract the streamUrl');
 			}

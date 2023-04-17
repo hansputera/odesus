@@ -68,4 +68,5 @@ export type Episode = {
 	picture: string;
 	iframeStreamUrl: string;
 	stream: () => Promise<Readable>;
+	getStreamUrl: () => Promise<string | undefined>;
 };
