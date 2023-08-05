@@ -66,7 +66,18 @@ export type Episode = {
 	}>;
 	credit: string;
 	picture: string;
-	iframeStreamUrl: string;
-	stream: () => Promise<Readable>;
-	getStreamUrl: () => Promise<string | undefined>;
+	mirrors: Array<{
+		getNonceCode: () => Promise<string>;
+		getMirrorUrl: () => Promise<string | undefined>;
+		getStreamUrl: () => Promise<string | undefined>;
+		stream: () => Promise<Readable>;
+		resolution: string;
+		source: string;
+		// Encoded mirror payload (data content)
+		_encoded: string;
+	}>;
+	/**
+		Stream: () => Promise<Readable>;
+		getStreamUrl: () => Promise<string | undefined>;
+	*/
 };

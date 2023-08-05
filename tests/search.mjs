@@ -1,4 +1,4 @@
-const {Odesus} = require('../dist');
+import {Odesus} from '../dist/index.js';
 
 const odesu = new Odesus();
 odesu.search('Bor').then(r => {

@@ -1,5 +1,5 @@
-const {createWriteStream} = require('fs');
-const {Util, Odesus} = require('../dist');
+import {createWriteStream} from 'fs';
+import {Util, Odesus} from '../dist/index.js';
 
 const epUrl = 'https://otakudesu.lol/episode/rnsid8mnkwt-episode-12-sub-indo/';
 const slug = Util.resolveSlug(epUrl);
@@ -10,9 +10,11 @@ new Odesus()
 		console.log(res);
 		console.log(res.downloads);
 
-		console.log(await res.getStreamUrl());
+		console.log(res.mirrors);
+		console.log(await res.mirrors[0].getMirrorUrl());
+		console.log(await res.mirrors[0].getStreamUrl());
 
-		const stream = await res.stream();
+		const stream = await res.mirrors[0].stream();
 		stream.on('data', console.log);
 		stream.on('end', () => {
 			console.log('stream finished');

@@ -1,4 +1,4 @@
-const {Util, Odesus} = require('../dist');
+import {Util, Odesus} from '../dist/index.js';
 
 const u = 'https://otakudesu.lol/anime/rougo-isekai-tamemasu-sub-indo/';
 const resolved = Util.resolveSlug(u);
