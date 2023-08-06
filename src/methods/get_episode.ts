@@ -96,8 +96,9 @@ export const $mirrorHandle = (el: Element): Episode['mirrors'][0] | undefined =>
 				throw new Error('Unexpected Response#status from frameUrl');
 			}
 
-			const re = /(?:'|")file(?:'|"):(?:'|")(.+)(?:'|")(?:,)/gi;
-			const streamUrl = re.exec(response.data);
+			const streamUrl = /(?:'|")file(?:'|"):(?:'|")(.+)(?:'|")(?:,)/gi
+				.exec(response.data)
+					?? /\[{'file':'(.+)','type/gi.exec(response.data);
 
 			return streamUrl?.at(1) ?? undefined;
 		},
