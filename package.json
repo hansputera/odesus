@@ -1,6 +1,6 @@
 {
   "name": "odesus",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "OdesuS (Otakudesu Scraper) is a simple scraper for otakudesu.ltd",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
