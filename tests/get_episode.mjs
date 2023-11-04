@@ -1,7 +1,7 @@
 import {createWriteStream} from 'fs';
 import {Util, Odesus} from '../dist/index.js';
 
-const epUrl = 'https://otakudesu.lol/episode/rnsid8mnkwt-episode-12-sub-indo/';
+const epUrl = 'https://otakudesu.cam/episode/rnsid8mnkwt-episode-12-sub-indo/';
 const slug = Util.resolveSlug(epUrl);
 
 new Odesus()

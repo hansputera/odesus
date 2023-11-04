@@ -2,6 +2,7 @@ import {type Episode} from '@typings';
 import {type Slug} from '@util';
 import {type Element, load} from 'cheerio';
 import * as gaxios from 'gaxios';
+import miniget from 'miniget';
 import {type Readable} from 'stream';
 
 // Ref: https://stackoverflow.com/a/67583500/21549146
@@ -102,17 +103,19 @@ export const $mirrorHandle = (el: Element): Episode['mirrors'][0] | undefined =>
 
 			return streamUrl?.at(1) ?? undefined;
 		},
-		async stream(): Promise<Readable> {
+		async stream(options?: miniget.Options): Promise<miniget.Stream> {
 			const streamUrl = await this.getStreamUrl();
 			if (!streamUrl?.length) {
 				throw new Error('Fail to extract the streamUrl');
 			}
 
-			return (await gaxios.request<Readable>({
-				url: streamUrl,
-				responseType: 'stream',
-				baseUrl: '',
-			})).data;
+			options ??= {
+				highWaterMark: 250,
+			};
+
+			options.headers = gaxios.instance.defaults.headers;
+
+			return miniget(streamUrl, options);
 		},
 	};
 };
