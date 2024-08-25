@@ -21,17 +21,17 @@
     "anime-scrapper",
     "anime-scrapping"
   ],
-  "author": "Hanif Dwy Putra S <me@hdps.my.id>",
+  "author": "Hanif Dwy Putra S <hanifdwyputrasembiring@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.18.8",
+    "@types/node": "^18.19.45",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.53.0",
+    "eslint": "^8.57.0",
     "eslint-config-xo": "^0.43.1",
     "eslint-config-xo-typescript": "^0.56.0",
     "tsup": "^7.2.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.5.4"
   },
   "files": [
     "dist/**",
@@ -41,6 +41,6 @@
   ],
   "dependencies": {
     "cheerio": "1.0.0-rc.12",
-    "gaxios": "^6.1.1"
+    "gaxios": "^6.7.1"
   }
 }
