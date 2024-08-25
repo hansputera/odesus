@@ -13,9 +13,10 @@ new Odesus()
 		console.log(res.mirrors);
 		console.log(await res.mirrors[0].getMirrorUrl());
 		console.log(await res.mirrors[0].getStreamUrl());
+		console.log(await res.mirrors[0].getStreamFileSize());
 
 		const stream = await res.mirrors[0].stream();
-		stream.on('data', console.log);
+		stream.on('progress', console.log);
 		stream.on('end', () => {
 			console.log('stream finished');
 		});

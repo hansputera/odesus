@@ -69,6 +69,7 @@ export type Episode = {
 	mirrors: Array<{
 		getNonceCode: () => Promise<string>;
 		getMirrorUrl: () => Promise<string | undefined>;
+		getStreamFileSize: () => Promise<number | undefined>;
 		getStreamUrl: () => Promise<string | undefined>;
 		stream: () => Promise<Readable>;
 		resolution: string;

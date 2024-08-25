@@ -16,7 +16,7 @@ export class Odesus {
      * @constructor
      * @param baseUrl Otakudesu Base URL
      */
-	constructor(baseUrl = 'https://otakudesu.cam') {
+	constructor(baseUrl = 'https://otakudesu.cloud') {
 		gaxios.instance.defaults = {
 			baseUrl,
 			headers: {

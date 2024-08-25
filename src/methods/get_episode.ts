@@ -2,7 +2,6 @@ import {type Episode} from '@typings';
 import {type Slug} from '@util';
 import {type Element, load} from 'cheerio';
 import * as gaxios from 'gaxios';
-import miniget from 'miniget';
 import {type Readable} from 'stream';
 
 // Ref: https://stackoverflow.com/a/67583500/21549146
@@ -103,19 +102,55 @@ export const $mirrorHandle = (el: Element): Episode['mirrors'][0] | undefined =>
 
 			return streamUrl?.at(1) ?? undefined;
 		},
-		async stream(options?: miniget.Options): Promise<miniget.Stream> {
+		async getStreamFileSize(): Promise<number | undefined> {
+			const streamUrl = await this.getStreamUrl();
+			if (!streamUrl?.length) {
+				return undefined;
+			}
+
+			const response = await gaxios.request({
+				url: streamUrl,
+				baseUrl: '',
+				method: 'HEAD',
+			});
+
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			return parseInt(response.headers['content-length'] ?? '0', 10);
+		},
+		async stream(options?: gaxios.GaxiosOptions): Promise<Readable> {
 			const streamUrl = await this.getStreamUrl();
 			if (!streamUrl?.length) {
 				throw new Error('Fail to extract the streamUrl');
 			}
 
-			options ??= {
-				highWaterMark: 250,
+			const state = {
+				downloadedChunks: 0,
+				fileSize: await this.getStreamFileSize(),
 			};
 
-			options.headers = gaxios.instance.defaults.headers;
+			if (!state.fileSize) {
+				throw new Error('Fail to extract the file size');
+			}
 
-			return miniget(streamUrl, options);
+			const response = await gaxios.request<Readable>({
+				method: 'GET',
+				url: streamUrl,
+				baseUrl: '',
+				responseType: 'stream',
+				...options,
+			});
+
+			response.data.on('data', chunk => {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+				state.downloadedChunks += Buffer.from(chunk).length;
+				response.data.emit('progress', {
+					downloaded: state.downloadedChunks,
+					total: state.fileSize!,
+					progress: (state.downloadedChunks / state.fileSize!) * 100,
+				});
+			});
+
+			return response.data;
 		},
 	};
 };
