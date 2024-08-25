@@ -82,3 +82,9 @@ export type Episode = {
 		getStreamUrl: () => Promise<string | undefined>;
 	*/
 };
+
+export type Day = 'senin' | 'selasa' | 'rabu' | 'kamis' | 'jumat' | 'sabtu' | 'minggu' | 'random';
+export type Schedule = {
+	day: Day;
+	animes: Array<Pick<SearchResult, 'name' | 'url'>>;
+};
