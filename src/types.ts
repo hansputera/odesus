@@ -87,4 +87,5 @@ export type Day = 'senin' | 'selasa' | 'rabu' | 'kamis' | 'jumat' | 'sabtu' | 'm
 export type Schedule = {
 	day: Day;
 	animes: Array<Pick<SearchResult, 'name' | 'url'>>;
+	slug?: Slug;
 };
